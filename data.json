@@ -1,0 +1,9 @@
+[
+  { "category": "Bills & Rent", "value": 30% },
+  { "category": "Food & Grocery", "value": 30% }
+  { "category": "Entertainment", "value": 10% },
+  { "category": "Transportation", "value": 15% },
+  { "category": "Shopping", "value": 10% },
+  { "category": "Personal Care", "value": 10% },
+  { "category": "Miscellaneous", "value": 5% },
+]
