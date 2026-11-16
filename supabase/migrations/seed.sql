@@ -1,0 +1,4 @@
+-- insert into event
+-- -- (E_ID,event_title)
+-- values(1, 'carnival', "I had a lot of fun", "2003-06-23", 
+-- "2003-06-24");
