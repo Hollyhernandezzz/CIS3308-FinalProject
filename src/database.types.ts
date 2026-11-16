@@ -19,30 +19,63 @@ export type Database = {
           budget: number
           end_date: string | null
           expense: number
+          host_id: string | null
           id: number
           title: string
-          user_id: string | null
         }
         Insert: {
           budget: number
           end_date?: string | null
           expense: number
+          host_id?: string | null
           id?: never
           title: string
-          user_id?: string | null
         }
         Update: {
           budget?: number
           end_date?: string | null
           expense?: number
+          host_id?: string | null
           id?: never
           title?: string
-          user_id?: string | null
         }
         Relationships: [
           {
-            foreignKeyName: "events_user_id_fkey"
-            columns: ["user_id"]
+            foreignKeyName: "events_host_id_fkey"
+            columns: ["host_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      friends: {
+        Row: {
+          accepted: boolean
+          receiver_id: string | null
+          requester_id: string | null
+        }
+        Insert: {
+          accepted?: boolean
+          receiver_id?: string | null
+          requester_id?: string | null
+        }
+        Update: {
+          accepted?: boolean
+          receiver_id?: string | null
+          requester_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "friends_receiver_id_fkey"
+            columns: ["receiver_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "friends_requester_id_fkey"
+            columns: ["requester_id"]
             isOneToOne: false
             referencedRelation: "profiles"
             referencedColumns: ["id"]
@@ -52,44 +85,51 @@ export type Database = {
       participants: {
         Row: {
           display_name: string | null
+          host_id: string | null
           id: number
-          locale: unknown
           owed: number
           paid: number
+          participant_id: string | null
           transaction_id: number | null
-          user_id: string | null
         }
         Insert: {
           display_name?: string | null
+          host_id?: string | null
           id?: never
-          locale?: unknown
           owed: number
           paid: number
+          participant_id?: string | null
           transaction_id?: number | null
-          user_id?: string | null
         }
         Update: {
           display_name?: string | null
+          host_id?: string | null
           id?: never
-          locale?: unknown
           owed?: number
           paid?: number
+          participant_id?: string | null
           transaction_id?: number | null
-          user_id?: string | null
         }
         Relationships: [
+          {
+            foreignKeyName: "participants_host_id_fkey"
+            columns: ["host_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "participants_participant_id_fkey"
+            columns: ["participant_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
           {
             foreignKeyName: "participants_transaction_id_fkey"
             columns: ["transaction_id"]
             isOneToOne: false
             referencedRelation: "transactions"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "participants_user_id_fkey"
-            columns: ["user_id"]
-            isOneToOne: false
-            referencedRelation: "profiles"
             referencedColumns: ["id"]
           },
         ]
@@ -100,44 +140,50 @@ export type Database = {
           email: string
           id: string
           income: number
-          locale: unknown
+          locale: string | null
         }
         Insert: {
           display_name?: string | null
           email: string
           id: string
           income: number
-          locale?: unknown
+          locale?: string | null
         }
         Update: {
           display_name?: string | null
           email?: string
           id?: string
           income?: number
-          locale?: unknown
+          locale?: string | null
         }
         Relationships: []
       }
       transactions: {
         Row: {
+          category: string | null
           event_id: number | null
           expense: number
+          host_id: string | null
           id: number
-          locale: unknown
+          locale: string | null
           title: string
         }
         Insert: {
+          category?: string | null
           event_id?: number | null
           expense: number
+          host_id?: string | null
           id?: never
-          locale?: unknown
+          locale?: string | null
           title: string
         }
         Update: {
+          category?: string | null
           event_id?: number | null
           expense?: number
+          host_id?: string | null
           id?: never
-          locale?: unknown
+          locale?: string | null
           title?: string
         }
         Relationships: [
@@ -146,6 +192,13 @@ export type Database = {
             columns: ["event_id"]
             isOneToOne: false
             referencedRelation: "events"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "transactions_host_id_fkey"
+            columns: ["host_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
             referencedColumns: ["id"]
           },
         ]
