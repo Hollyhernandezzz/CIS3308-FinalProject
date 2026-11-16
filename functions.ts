@@ -24,11 +24,11 @@ interface Transaction
     name: string,
     category: string,
     cost: Money,
-    date?: Temporal.PlainDate,
+    date?: Temporal.PlainDateTime,
     description?: string,
     uid: number
 }
-// typescript has a built in date type called Temporal
+// typescript has a (new) built in date type called Temporal
 // read: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Temporal
 // read: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Temporal/PlainDateTime
 
@@ -40,9 +40,22 @@ const get_transaction_by_category =
     category: string
 ) => transaction_array
 
-const sort_recent_transactions = () =>
+const get_recent_transactions = (transactions: Transaction[], cnt: number): Transaction[] => 
 {
-    // todo
+    const recent_transactions: Transaction[] = [];
+
+    // number of recents can be adjusted, pushes stuff at the end of main transactions array to recent_transactions
+    for(let i = 0; i < cnt; i++)
+    {
+        recent_transactions.push(transactions[transactions.length - (i + 1)]);
+    }
+
+    return recent_transactions;
+}
+
+const add_transaction = (transaction: Transaction) =>
+{
+    transaction_array.push(transaction);
 }
 
 ////////////////////////////////////////////////
