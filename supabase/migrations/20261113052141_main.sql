@@ -24,11 +24,11 @@ Create table  if not exists userProfile(
 create table if not exists transactions(
     t_ID serial,
     title text,
-    C_ID serial,
+    C_ID int,
     amount decimal(65, 2),
     currency text,
-    E_ID serial,
-	U_ID serial,
+    E_ID int,
+	U_ID int,
     T_Date date,
     T_Time time,
 
@@ -41,16 +41,27 @@ create table if not exists transactions(
 
 
 Create table if not exists Friends_List (  
-	U_ID serial,    
-	F_ID serial,
+	U_ID int,    
+	F_ID int,
 	
-	primary key(U_ID),
+	primary key( F_ID),
 	foreign key(U_ID) references userProfile(U_ID),
 	foreign key(F_ID) references userProfile(U_ID)
 );
 
+create table if not exists debt(
+	T_ID int, 
+	amount decimal(65, 2),
+	U_ID int,
+	F_ID int,
+	messages text,
+	foreign key(F_ID) references Friends_List(F_ID),
+	foreign key(U_ID) references userProfile(U_ID),
+	foreign key(T_ID) references transactions(T_ID)
+);
+
 Create table if not exists Balance (
-	account_ID serial,
+	account_ID int,
     foreign key (account_ID)  references userProfile(U_ID),
 	Total_balance decimal(65, 2),
 	Annual_Budget decimal(65, 2)
@@ -59,11 +70,11 @@ Create table if not exists Balance (
 );
 
 create table if not exists monthlyInfo(
-	account_ID serial,
+	account_ID int,
 	foreign key (account_ID)  references userProfile(U_ID),
 	M_ID serial primary key,
 	monthly_Budget decimal(65,2),
 	predicted_monthly_spending decimal(65,2)
-	
-
 );
+
+
