@@ -1,7 +1,7 @@
 create table  if not exists eventEntry(
 	E_ID serial ,
 	event_title text,
-	description text default 'no description',
+	event_description text default 'no description',
 	event_date_start date default current_date,   
 	event_date_end date,
 
@@ -28,12 +28,13 @@ create table if not exists transactions(
     amount decimal(65, 2),
     currency text,
     E_ID serial,
+	U_ID serial,
     T_Date date,
     T_Time time,
 
     constraint Transaction_PK primary key(t_ID),
 	constraint Catergory_FK foreign key( C_ID) references Categories( C_ID),
-	constraint User_FK foreign key(t_ID) references userProfile(U_ID),
+	constraint User_FK foreign key(U_ID) references userProfile(U_ID),
     foreign key(E_ID) references eventEntry(E_ID)
 );
 
@@ -49,9 +50,20 @@ Create table if not exists Friends_List (
 );
 
 Create table if not exists Balance (
- account_ID serial  references userProfile(U_ID),
-Total_balance decimal(65, 2),
-Annual_Budget decimal(65, 2),
-monthly_Budget decimal(65, 2)
+	account_ID serial,
+    foreign key (account_ID)  references userProfile(U_ID),
+	Total_balance decimal(65, 2),
+	Annual_Budget decimal(65, 2)
+	
+
+);
+
+create table if not exists monthlyInfo(
+	account_ID serial,
+	foreign key (account_ID)  references userProfile(U_ID),
+	M_ID serial primary key,
+	monthly_Budget decimal(65,2),
+	predicted_monthly_spending decimal(65,2)
+	
 
 );
