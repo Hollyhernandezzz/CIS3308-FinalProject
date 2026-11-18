@@ -20,7 +20,7 @@ interface User
 // transactions, goes into array
 interface Transaction
 {
-    id: number,
+    id: string,
     name: string,
     category: string,
     cost: Money,
@@ -63,7 +63,7 @@ const add_transaction = (transaction: Transaction) =>
 // expenses
 interface Expense
 {
-    expenseId: number,
+    expenseId: string,
     title: string,
     cost: Money,
     date?: Temporal.PlainDateTime,
@@ -74,9 +74,30 @@ interface Expense
 
 const expenses: Expense[] = [];
 
+// /
+
+const id_generator = (type:string, date:Temporal.PlainDateTime): string =>
+{
+    let date_format = date.year + date.month + date.day + date.hour + date.minute + date.second + date.millisecond;
+    switch(type.toLowerCase())
+    {
+        case "transaction":
+            return "TR" + date_format;
+        case "expense":
+            return "EX" + date_format;
+        case "sharedexpense":
+            return "SE" + date_format;
+        case "event":
+            return "EV" + date_format;
+        default:
+            return "invalid";
+    }
+}
+
 const createExpense = (userID: User): Expense =>
 {
     // todo
+
 }
 
 const createSharedExpense = (userIDs: User[]): Expense =>
@@ -94,7 +115,7 @@ const sort_expense_by_currency =
 // income
 interface Income
 {
-    transactionId: number,
+    transactionId: string,
     title: string,
     cost: Money,
     date?: Temporal.PlainDateTime,
@@ -109,7 +130,7 @@ const events_array: Expense[] = [];
 
 interface Event
 {
-    id: number,
+    id: string,
     events: Expense[],
     users: User[],
     total: number
