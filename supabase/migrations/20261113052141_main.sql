@@ -31,6 +31,7 @@ create table if not exists transactions(
 	U_ID int,
     T_Date date,
     T_Time time,
+	T_type text,
 
     constraint Transaction_PK primary key(t_ID),
 	constraint Catergory_FK foreign key( C_ID) references Categories( C_ID),
@@ -69,12 +70,12 @@ Create table if not exists Balance (
 
 );
 
-create table if not exists monthlyInfo(
-	account_ID int,
-	foreign key (account_ID)  references userProfile(U_ID),
-	M_ID serial primary key,
-	monthly_Budget decimal(65,2),
-	predicted_monthly_spending decimal(65,2)
-);
+-- create table if not exists monthlyInfo(
+-- 	account_ID int,
+-- 	foreign key (account_ID)  references userProfile(U_ID),
+-- 	M_ID serial primary key,
+-- 	monthly_Budget decimal(65,2),
+-- 	predicted_monthly_spending decimal(65,2)
+-- );
 
 
