@@ -1,16 +1,21 @@
 Queries/Views SQL
 
 ------ getEventBalance
-
------- calculateBalance
+    create view getEventBalance as
+    select amount from transactions
+    where E_ID = 'user_input';
 
 ------ calculateSplit
+
 
 ------ getCollaborator
 
 ------ setCollaborator
 
 ------ sort_expense_by_currency
+    create view sort_expense_by_currency as
+    select * from transactions where T_type = 'expense'
+    orderby currency;
 
 ------ createSharedExpense
 
@@ -19,27 +24,41 @@ Queries/Views SQL
 ------ getMonthlyBudget
 
 ------ getMonthlyExpense
+    create view showMonthlyTransactions as 
+    select amount from transactions 
+    where T_type = 'expense' and t_date > startVal 
+    and t_date < endval;
+
 
 ------ insertTransaction
+    insert into transactions
+    (title, C_ID, amount, currency, E_ID, T_Date, T_Time, T_type)
+    values('user_Input', 'user_Input', 'user_Input', 'user_Input'
+    , 'dropdown','user_Input', 'user_Input', 'dropdown')
 
 ------ sendFriendRequest
 
------- showDebtPayer
+
+------ showReceiver
+    create view showReceiver as
+    select Friends_List_ID from transactions where U_ID not null;
 
 ------ showLender
+    create view showLender as
+    select U_ID from transactions where F_ID not null;
 
 ------ payOffDebt
-    update table debt
-    set  amount = amount - 'userInput', messages = userInput
-    where T_ID = selected;
+    update table transactions
+    set  amount = amount - 'userInput'
+    where T_ID = selected and T_type = 'debt/request';
 
+------ calculateBalance
     update table Balance b
-    set Total_balance = b.Total_balance + d.amount
-    from debt d
-    where d.U_ID = b.account_ID;
+    set Total_balance = b.Total_balance + t.amount
+    from transactions t
+    where t.U_ID = b.account_ID;
 
-    insert into transactions
-
+    
 ------ requestPayment
     insert into transactions
     (title, C_ID, amount, currency, E_ID, U_ID, F_ID, T_type)

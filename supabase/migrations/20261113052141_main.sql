@@ -42,6 +42,7 @@ create table if not exists transactions(
     T_Date date,
     T_Time time,
 	T_type text,
+	short_description text,
 
     constraint Transaction_PK primary key(t_ID),
 	constraint Catergory_FK foreign key( C_ID) references Categories( C_ID),
