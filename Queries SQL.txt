@@ -1,0 +1,123 @@
+Queries/Views SQL
+
+------ getEventBalance
+    create view getEventBalance as
+    select amount from transactions
+    where E_ID = 'user_input';
+
+------ calculateSplit
+
+
+------ getCollaborator
+
+------ setCollaborator
+
+------ sort_expense_by_currency
+    create view sort_expense_by_currency as
+    select * from transactions where T_type = 'expense'
+    orderby currency;
+
+------ createSharedExpense
+
+------ createExpense
+
+------ getMonthlyBudget
+
+------ getMonthlyExpense
+    create view showMonthlyTransactions as 
+    select amount from transactions 
+    where T_type = 'expense' and t_date > startVal 
+    and t_date < endval;
+
+
+------ insertTransaction
+    insert into transactions
+    (title, C_ID, amount, currency, E_ID, T_Date, T_Time, T_type)
+    values('user_Input', 'user_Input', 'user_Input', 'user_Input'
+    , 'dropdown','user_Input', 'user_Input', 'dropdown')
+
+------ sendFriendRequest
+
+
+------ showReceiver
+    create view showReceiver as
+    select Friends_List_ID from transactions where U_ID not null;
+
+------ showLender
+    create view showLender as
+    select U_ID from transactions where F_ID not null;
+
+------ payOffDebt
+    update table transactions
+    set  amount = amount - 'userInput'
+    where T_ID = selected and T_type = 'debt/request';
+
+------ calculateBalance
+    update table Balance b
+    set Total_balance = b.Total_balance + t.amount
+    from transactions t
+    where t.U_ID = b.account_ID;
+
+    
+------ requestPayment
+    insert into transactions
+    (title, C_ID, amount, currency, E_ID, U_ID, F_ID, T_type)
+    values(input_string, input_number, input string, selected_Event, 
+    automatic, select_friend, 'debt/request');
+
+------ view debt
+    create view showRequests as
+    select * from transactions
+    where T_type = 'debt/request';
+
+------ view total debt
+    create view showtotalDebt as
+    select sum(amount) from transactions
+    where T_type = 'debt/request';
+
+------ repay debt/ accept request
+    update table transactions t
+    set  amount = t.amount - 'userInput'
+    where T_type = 'debt/request' and
+    t.F_ID = t.U_ID and
+    T_ID = selected;
+
+------ receivePayment
+    update table Balance 
+    set Balance.Total_balance + t.amount
+    from transactions 
+    where t.T_type = 'debt/request';
+
+------ showRemainingAmountToPay
+    create view showRemainingAmountToPay as
+    select amount from transactions
+    where T_type = 'debt/request' and 
+    transactions.F_ID = transactions.U_ID and
+    t_ID = selected
+    
+
+------ showBalance
+    create view showBalance as
+    select Total_balance from Balance
+
+------ getAnnualBudget
+    create view getAnnualBudget as
+    select Annual_Budget from Balance
+
+------ showTransactions (sort by date)
+    create view showTransactions as 
+    select * from transactions 
+    orderby T_Date;
+
+------ filterByEvent
+    create view sortByEvent as
+    select *
+    from transactions t where E_ID = 'input' ;
+
+------ getEventEntries
+
+    create view getEventEntries as
+    select distinct event_title
+    from eventEntry;
+
+
