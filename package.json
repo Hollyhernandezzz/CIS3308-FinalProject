@@ -1,0 +1,26 @@
+{
+  "name": "cis3308-finalproject",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "vite --open /mainpage.html"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Hollyhernandezzz/CIS3308-FinalProject.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/Hollyhernandezzz/CIS3308-FinalProject/issues"
+  },
+  "homepage": "https://github.com/Hollyhernandezzz/CIS3308-FinalProject#readme",
+  "devDependencies": {
+    "typescript": "^7.0.2",
+    "vite": "^8.3.8"
+  }
+}
