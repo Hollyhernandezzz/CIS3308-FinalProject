@@ -32,13 +32,13 @@ git push origin feature_branch
 supabase db reset --remote #npx supabase db reset --remote
 ```
 ```js
-//tsx
+//ts
 import {createClient} from '@supabase/supabase-js'
 import type {Database} from '../database.types'
 const url=import.meta.env.VITE_SUPABASE_URL
 const key=import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY
 const supabase=createClient<Database>(url,key)
 const {data,error}=await supabase.from('table_name').select()
-const {data:auth_data,error:auth_err}=await supabase.auth.signUp({email:'email',pwd:'pwd'})
+const {data:_data,error}=await supabase.auth.signInWithOAuth({provider:'github'})
 ```
 add to .gitignore:`supabase/.temp`
