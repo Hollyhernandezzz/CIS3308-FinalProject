@@ -12,7 +12,8 @@ interface User
     uid: number,
     username: string,
     mainCurrency?: string,
-    balance: Money[]
+    balance: Money[],
+    imageLink: string
 }
 
 ////////////////////////////////////////////////
@@ -79,6 +80,7 @@ const expenses: Expense[] = [];
 const id_generator = (type:string, date:Temporal.PlainDateTime): string =>
 {
     let date_format = date.year + date.month + date.day + date.hour + date.minute + date.second + date.millisecond;
+
     switch(type.toLowerCase())
     {
         case "transaction":
@@ -94,10 +96,10 @@ const id_generator = (type:string, date:Temporal.PlainDateTime): string =>
     }
 }
 
-const createExpense = (userID: User): Expense =>
+const createExpense = (eId: string, title: string, cost: Money, userID: User, date?: Temporal.PlainDateTime, desc?: string, imageLink?: string): Expense =>
 {
     // todo
-
+    
 }
 
 const createSharedExpense = (userIDs: User[]): Expense =>
@@ -152,7 +154,8 @@ const setCollaborator = (FriendID: number) =>
 
 const getCurrentBalance = (user: User): Money =>
 {
-    // todo
+    // can be adjusted later, this is just for idx 0 primary currency
+    return user.balance[0];
 }
 
 const getEventBalance = (event: Event): Money =>
