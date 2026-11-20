@@ -1,0 +1,104 @@
+Queries/Views SQL
+
+------ getEventBalance
+
+------ calculateBalance
+
+------ calculateSplit
+
+------ getCollaborator
+
+------ setCollaborator
+
+------ sort_expense_by_currency
+
+------ createSharedExpense
+
+------ createExpense
+
+------ getMonthlyBudget
+
+------ getMonthlyExpense
+
+------ insertTransaction
+
+------ sendFriendRequest
+
+------ showDebtPayer
+
+------ showLender
+
+------ payOffDebt
+    update table debt
+    set  amount = amount - 'userInput', messages = userInput
+    where T_ID = selected;
+
+    update table Balance b
+    set Total_balance = b.Total_balance + d.amount
+    from debt d
+    where d.U_ID = b.account_ID;
+
+    insert into transactions
+
+------ requestPayment
+    insert into transactions
+    (title, C_ID, amount, currency, E_ID, U_ID, F_ID, T_type)
+    values(input_string, input_number, input string, selected_Event, 
+    automatic, select_friend, 'debt/request');
+
+------ view debt
+    create view showRequests as
+    select * from transactions
+    where T_type = 'debt/request';
+
+------ view total debt
+    create view showtotalDebt as
+    select sum(amount) from transactions
+    where T_type = 'debt/request';
+
+------ repay debt/ accept request
+    update table transactions t
+    set  amount = t.amount - 'userInput'
+    where T_type = 'debt/request' and
+    t.F_ID = t.U_ID and
+    T_ID = selected;
+
+------ receivePayment
+    update table Balance 
+    set Balance.Total_balance + t.amount
+    from transactions 
+    where t.T_type = 'debt/request';
+
+------ showRemainingAmountToPay
+    create view showRemainingAmountToPay as
+    select amount from transactions
+    where T_type = 'debt/request' and 
+    transactions.F_ID = transactions.U_ID and
+    t_ID = selected
+    
+
+------ showBalance
+    create view showBalance as
+    select Total_balance from Balance
+
+------ getAnnualBudget
+    create view getAnnualBudget as
+    select Annual_Budget from Balance
+
+------ showTransactions (sort by date)
+    create view showTransactions as 
+    select * from transactions 
+    orderby T_Date;
+
+------ filterByEvent
+    create view sortByEvent as
+    select *
+    from transactions t where E_ID = 'input' ;
+
+------ getEventEntries
+
+    create view getEventEntries as
+    select distinct event_title
+    from eventEntry;
+
+
