@@ -2,7 +2,7 @@ Queries/Views SQL
 
 ------ getEventBalance
     create view getEventBalance as
-    select amount from transactions
+    select sum(amount) from transactions
     where E_ID = 'user_input';
 
 ------ calculateSplit
@@ -58,6 +58,7 @@ Queries/Views SQL
     from transactions t
     where t.U_ID = b.account_ID;
 
+
     
 ------ requestPayment
     insert into transactions
@@ -94,6 +95,7 @@ Queries/Views SQL
     where T_type = 'debt/request' and 
     transactions.F_ID = transactions.U_ID and
     t_ID = selected
+
     
 
 ------ showBalance
