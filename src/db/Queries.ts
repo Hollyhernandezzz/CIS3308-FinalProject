@@ -12,33 +12,39 @@ import {supabase} from "../supabaseClient.ts"
 //------------ Display information -------------------//
 
 export  const showEventEntries = async() =>{
-  await supabase.from('evententry')
-  .select('distinct(event_title)') 
+  const{data} = await supabase.from('evententry')
+  .select('distinct(event_title)');
+  return data;
 };
 
 export  const showTransactions = async() =>{
-  await supabase.from('transactions')
-  .select('*').order('T_Date', { ascending: false })
+  const{data} = await supabase.from('transactions')
+  .select('*').order('T_Date', { ascending: false });
+  return data;
 };
 
 export  const showAnnualBudget = async() =>{
-  await supabase.from('balance')
-  .select('Annual_Budget')
+  const{data} = await supabase.from('balance')
+  .select('Annual_Budget');
+  return data;
 };
 
 export  const showRequests = async() =>{
-  await supabase.from('transactions')
-  .select('*').neq('f_id', null)
+  const{data} = await supabase.from('transactions')
+  .select('*').neq('f_id', null);
+  return data;
 };
 
 export  const showFriendsList = async() =>{
-  await supabase.from('friends_list')
-  .select('f_id')
+  const{data} = await supabase.from('friends_list')
+  .select('f_id');
+  return data;
 };
 
 export const showTotalBalanace = async() =>{
-  await supabase.from('balance')
-  .select('total_balance')
+  const{data} = await supabase.from('balance')
+  .select('total_balance');
+  return data;
 };
 
 export const showTotalEventExpenses = async(event: number) =>{
@@ -110,16 +116,21 @@ export const newTransaction = async(amount: number, category: number, currency: 
   event: number, friend: string, shortdesc: string, date: string, type: string, 
   title:string, user: string) =>{
   try{ 
-    let { data: balance } = await supabase
+    const { data: transaction } = await supabase
     .from('transactions').insert({amount: amount, c_id: category, currency: currency, 
     e_id: event, f_id: friend, short_description: shortdesc, t_date: date, t_type: type,
     title: title, u_id: user
     }).select();
   
-    if(balance){console.log(balance)}
+    if(transaction){
+      console.log(transaction)
+    }
+    return transaction;
+    
   }
   catch(error){
     console.error(error)
+    
   }
 };
 
@@ -130,9 +141,11 @@ export const createBalance = async(annualBudget: number, initializeBalance: numb
       total_balance: initializeBalance}).select();
   
     if(balance){console.log(balance)}
+    return balance;
   }
   catch(error){
     console.error(error)
   }
 };
 
+//-----------------------------------------------------//
