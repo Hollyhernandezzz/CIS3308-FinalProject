@@ -1,11 +1,17 @@
 
-import { createClient } from '@supabase/supabase-js'
+// import { createClient } from '@supabase/supabase-js'
+// const supabase = createClient<Database>(
+//   import.meta.env.VITE_SUPABASE_URL,
+//   import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY
+// )
+//-----------------------------------------------------//
+
+
+
+import {supabase} from "../supabaseClient.ts"
 import { Database } from './database.types'
 
-const supabase = createClient<Database>(
-  import.meta.env.VITE_SUPABASE_URL,
-  import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY
-)
+
 
 export  const showEventEntries = async() =>{
 await supabase.from('eventEntry')

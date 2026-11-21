@@ -14,30 +14,190 @@ export type Database = {
   }
   public: {
     Tables: {
-      books: {
+      balance: {
         Row: {
-          author: string
-          genre: string
-          id: number
-          summary: string
-          title: string
-          year: number
+          account_id: string | null
+          annual_budget: number | null
+          total_balance: number | null
         }
         Insert: {
-          author: string
-          genre: string
-          id?: never
-          summary: string
-          title: string
-          year: number
+          account_id?: string | null
+          annual_budget?: number | null
+          total_balance?: number | null
         }
         Update: {
-          author?: string
-          genre?: string
-          id?: never
-          summary?: string
-          title?: string
-          year?: number
+          account_id?: string | null
+          annual_budget?: number | null
+          total_balance?: number | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "balance_account_id_fkey"
+            columns: ["account_id"]
+            isOneToOne: false
+            referencedRelation: "userprofile"
+            referencedColumns: ["u_id"]
+          },
+        ]
+      }
+      categories: {
+        Row: {
+          c_id: number
+          category: string | null
+        }
+        Insert: {
+          c_id?: number
+          category?: string | null
+        }
+        Update: {
+          c_id?: number
+          category?: string | null
+        }
+        Relationships: []
+      }
+      evententry: {
+        Row: {
+          e_id: number
+          event_date_end: string | null
+          event_date_start: string | null
+          event_description: string | null
+          event_title: string | null
+        }
+        Insert: {
+          e_id?: number
+          event_date_end?: string | null
+          event_date_start?: string | null
+          event_description?: string | null
+          event_title?: string | null
+        }
+        Update: {
+          e_id?: number
+          event_date_end?: string | null
+          event_date_start?: string | null
+          event_description?: string | null
+          event_title?: string | null
+        }
+        Relationships: []
+      }
+      friends_list: {
+        Row: {
+          f_id: string
+          u_id: string | null
+        }
+        Insert: {
+          f_id: string
+          u_id?: string | null
+        }
+        Update: {
+          f_id?: string
+          u_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "friends_list_f_id_fkey"
+            columns: ["f_id"]
+            isOneToOne: true
+            referencedRelation: "userprofile"
+            referencedColumns: ["u_id"]
+          },
+          {
+            foreignKeyName: "friends_list_u_id_fkey"
+            columns: ["u_id"]
+            isOneToOne: false
+            referencedRelation: "userprofile"
+            referencedColumns: ["u_id"]
+          },
+        ]
+      }
+      transactions: {
+        Row: {
+          amount: number | null
+          c_id: number | null
+          currency: string | null
+          e_id: number | null
+          f_id: string | null
+          short_description: string | null
+          t_date: string | null
+          t_id: number
+          t_time: string | null
+          t_type: string | null
+          title: string | null
+          u_id: string | null
+        }
+        Insert: {
+          amount?: number | null
+          c_id?: number | null
+          currency?: string | null
+          e_id?: number | null
+          f_id?: string | null
+          short_description?: string | null
+          t_date?: string | null
+          t_id?: number
+          t_time?: string | null
+          t_type?: string | null
+          title?: string | null
+          u_id?: string | null
+        }
+        Update: {
+          amount?: number | null
+          c_id?: number | null
+          currency?: string | null
+          e_id?: number | null
+          f_id?: string | null
+          short_description?: string | null
+          t_date?: string | null
+          t_id?: number
+          t_time?: string | null
+          t_type?: string | null
+          title?: string | null
+          u_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "catergory_fk"
+            columns: ["c_id"]
+            isOneToOne: false
+            referencedRelation: "categories"
+            referencedColumns: ["c_id"]
+          },
+          {
+            foreignKeyName: "transactions_e_id_fkey"
+            columns: ["e_id"]
+            isOneToOne: false
+            referencedRelation: "evententry"
+            referencedColumns: ["e_id"]
+          },
+          {
+            foreignKeyName: "transactions_f_id_fkey"
+            columns: ["f_id"]
+            isOneToOne: false
+            referencedRelation: "friends_list"
+            referencedColumns: ["f_id"]
+          },
+          {
+            foreignKeyName: "transactions_u_id_fkey"
+            columns: ["u_id"]
+            isOneToOne: false
+            referencedRelation: "userprofile"
+            referencedColumns: ["u_id"]
+          },
+        ]
+      }
+      userprofile: {
+        Row: {
+          first_name: string | null
+          last_name: string | null
+          u_id: string
+        }
+        Insert: {
+          first_name?: string | null
+          last_name?: string | null
+          u_id: string
+        }
+        Update: {
+          first_name?: string | null
+          last_name?: string | null
+          u_id?: string
         }
         Relationships: []
       }
