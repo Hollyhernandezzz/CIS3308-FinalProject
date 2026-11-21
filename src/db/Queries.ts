@@ -23,6 +23,15 @@ export  const showTransactions = async() =>{
   return data;
 };
 
+// only selects amount. This function may be necessary for updating
+//the total balance by using the output as an input param for
+//updateBalance rpc
+export  const showTransactionAmount = async() =>{
+  const{data} = await supabase.from('transactions')
+  .select('amount').order('t_id', {ascending: false}).limit(1).single();
+  return data;
+};
+
 export  const showAnnualBudget = async() =>{
   const{data} = await supabase.from('balance')
   .select('Annual_Budget');
@@ -41,39 +50,34 @@ export  const showFriendsList = async() =>{
   return data;
 };
 
-export const showTotalBalanace = async() =>{
+export const showTotalBalance = async() =>{
   const{data} = await supabase.from('balance')
   .select('total_balance');
   return data;
 };
 
 export const showTotalEventExpenses = async(event: number) =>{
-  await supabase.from('transactions')
-  .select('amount').eq('e_id', event)
-  //needs to sum each returned row
+  const{data} = await supabase.rpc('sumeventexpenses', {eventid: event})
+  return data;
 };
 
 export const showTotalMonthlyExpense = async(start_date: string, end_date: string) =>{
-  await supabase.from('transactions')
+  const{data} = await supabase.from('transactions')
   .select('*').gte("t_date", end_date).lte("t_date", start_date)
   //.is('f_id', null)
+  return data;
 };
 
 export const filterByEvent = async(e_id: number) =>{
-  const{} = await supabase.from('transactions')
+  const{data} = await supabase.from('transactions')
   .select('*').eq("e_id", e_id).single();
+  return data;
 };
 
 
-export  const showTotalRequestedAmount = async() =>{
-  const{data} = await supabase.from('transactions')
-  .select('amount').neq('f_id', null)
-
-  // let sum = 0
-  // for(let i = 0; i < data?.length ; i++){
-  //     sum += data[i].amount
-  // }
-  // return sum
+export  const showTotalDebt = async() =>{
+  const{data} = await supabase.rpc('showtotaldebt');
+  return data;
 };
 
 //-----------------------------------------------------//
@@ -98,11 +102,14 @@ export  const updatePayment = async(payment: number) =>{
 
 
 
-export const updateBalance = async(e_id: number) =>{
-  try{ let { data: balance } = await supabase
-  .from('transactions').update("e_id", e_id) 
+export const updateBalance = async(amount: number) =>{
+  try{ 
+    let { data: balance } = await supabase
+  .rpc('updatebalance', {updateamount: amount}); 
   if(balance){console.log(balance)}
+  return balance;
   }
+  
   catch(error){
     console.error(error)
   }
@@ -134,10 +141,12 @@ export const newTransaction = async(amount: number, category: number, currency: 
   }
 };
 
-export const createBalance = async(annualBudget: number, initializeBalance: number) =>{
+export const createBalance = async(UserID: string, 
+  annualBudget: number, initializeBalance: number) =>{
   try{ 
     let { data: balance } = await supabase
-    .from('balance').insert({annual_budget: annualBudget, 
+    .from('balance').insert({account_id: UserID, 
+      annual_budget: annualBudget, 
       total_balance: initializeBalance}).select();
   
     if(balance){console.log(balance)}
